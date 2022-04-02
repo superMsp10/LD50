@@ -1,0 +1,103 @@
+{
+  "main": {
+    "id": "9cec3f480985706f",
+    "type": "split",
+    "children": [
+      {
+        "id": "fb31de7d11fddc31",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Scope.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7bba0aacb2aa27e2",
+    "type": "split",
+    "children": [
+      {
+        "id": "bdaaaf25a49cf7cb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e26c7f592922b9be",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "10ffc0560b070b6c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d446758df2190f22",
+    "type": "split",
+    "children": [
+      {
+        "id": "889ede30e2f2205c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4db32edcac6a3673",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Scope.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "fb31de7d11fddc31",
+  "lastOpenFiles": [
+    "Scope.md",
+    "Level.md",
+    "Waves.md",
+    "Dev Tools.md",
+    "Stats.md",
+    "Fall of Heathen.md",
+    "Blocks.md",
+    "Actions.md",
+    "Gamplay.md",
+    "LD50.md"
+  ]
+}
