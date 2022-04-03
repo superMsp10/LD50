@@ -9,6 +9,7 @@ Archer
 
 Wall line
 - Drag in a line
+	- Allow diagonal lines?
 - 1 high walls
 - 2 high walls
 
