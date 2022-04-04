@@ -22,6 +22,8 @@ public class ActionsHandler : MonoBehaviour
         highlightBlockRenderer = highlightBlock.GetComponent<Renderer>();
 
         highlightBlockTransform = new GameObject("highlightBlockTransform").transform;
+
+        Debug.Log("Press ESC to cancel selected blocks while dragging");
     }
 
     bool validBlock;
@@ -31,6 +33,7 @@ public class ActionsHandler : MonoBehaviour
     void Update()
     {
         validBlock = GetBlockPosUnderMouse(out mouseBlockPos) && wManager.IsValidBlockPos(mouseBlockPos);
+        mouseBlockPos.y = 0;
         highlightBlockRenderer.material = selected;
 
         if (!leftClickDrag)
@@ -62,15 +65,26 @@ public class ActionsHandler : MonoBehaviour
         }
 
         //Highlight seletected blocks
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        if (startDragging && (Input.GetMouseButton(0) || Input.GetMouseButton(1)))
         {
             if (highlightBlockTransform != null)
                 Destroy(highlightBlockTransform.gameObject);
             highlightBlockTransform = new GameObject("highlightBlockTransform").transform;
             RasterLineCallback(startDragBlock, mouseBlockPos, (Vector3Int rasterPos) =>
             {
-                Instantiate(highlightBlock, rasterPos, Quaternion.identity, highlightBlockTransform);
+                GameObject g = Instantiate(highlightBlock, rasterPos, Quaternion.identity, highlightBlockTransform);
+                if (!wManager.isBlockEditable(rasterPos))
+                {
+                    g.GetComponent<Renderer>().material = error;
+                }
             });
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                startDragging = false;
+                if (highlightBlockTransform != null)
+                    Destroy(highlightBlockTransform.gameObject);
+            }
         }
 
         if (startDragging && (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)))
@@ -119,7 +133,7 @@ public class ActionsHandler : MonoBehaviour
         Vector3Int dv = p1 - p0;
         int yi = 1;
 
-        if( dv.z < 0)
+        if (dv.z < 0)
         {
             yi = -1;
             dv.z = -dv.z;
@@ -130,7 +144,7 @@ public class ActionsHandler : MonoBehaviour
         for (int x = p0.x; x <= p1.x; x++)
         {
 
-            Debug.LogFormat("Raster point low {0}", new Vector3Int(x, p0.y, y));
+            //Debug.LogFormat("Raster point low {0}", new Vector3Int(x, p0.y, y));
             callback(new Vector3Int(x, p0.y, y));
             if (d > 0)
             {

@@ -6,11 +6,23 @@ public class WorldManager : MonoBehaviour
 {
     [SerializeField] Vector3Int worldSize;
     [SerializeField] GameObject[] blockModels;
+    [SerializeField] BlockProperties[] blockProperties;
+
+    [SerializeField] float gateSize = 1;
+
     Transform blocksTerrain;
+
+    [System.Serializable]
+    public struct BlockProperties
+    {
+        public bool isEditable;
+    }
 
     public enum Block
     {
         Air,
+        Wall,
+        Temple,
         Wood
     }
 
@@ -19,18 +31,30 @@ public class WorldManager : MonoBehaviour
     private void Awake()
     {
         blocks = new Block[worldSize.x, worldSize.y, worldSize.z];
+        //Build edge walls and gates
+        for (int x = 0; x < worldSize.x; x++)
+            for (int z = 0; z < worldSize.z; z++)
+            {
+                //Gates in the middle
+                if (x == 0 || z == 0 || x == (worldSize.x - 1) || z == (worldSize.z - 1))
+                {
+                    float distXCenter = Mathf.Abs(x - worldSize.x / 2);
+                    float distZCenter = Mathf.Abs(z - worldSize.z / 2);
+
+                    if (distXCenter > gateSize && distZCenter > gateSize)
+                        blocks[x, 0, z] = Block.Wall;
+                }
+            }
+
+        //Place temple
+        blocks[worldSize.x / 2, 0, worldSize.z / 2] = Block.Temple;
+        RenderWorld();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //for (int x = 0; x < worldSize.x; x++)
-        //    for (int y = 0; y < worldSize.y; y++)
-        //        for (int z = 0; z < worldSize.z; z++)
-        //        {
-        //            blocks[x, y, z] = (Block)Random.Range(0, blockModels.Length);
-        //        }
-        RenderWorld();
+
     }
 
     // Update is called once per frame
@@ -39,13 +63,15 @@ public class WorldManager : MonoBehaviour
 
     }
 
+    public bool isBlockEditable(Vector3Int pos)
+    {
+        return blockProperties[(int)blocks[pos.x, pos.y, pos.z]].isEditable;
+    }
+
     public void EditBlock(Vector3Int pos, Block b)
     {
-        //if (IsValidBlockPos(pos))
-        //{
-        //    Debug.LogFormat("{0}", "Hello!");
+        if (isBlockEditable(pos))
             blocks[pos.x, pos.y, pos.z] = b;
-        //}
     }
 
     public Vector3Int GetValidWorldBlockPos(Vector3Int pos)

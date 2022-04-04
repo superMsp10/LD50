@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 1424937681846099527}
   - component: {fileID: 8665634034117301316}
   - component: {fileID: 8454505476502877284}
-  - component: {fileID: 7786885511905960923}
-  - component: {fileID: -1104509514580792613}
+  - component: {fileID: 322011195007048476}
+  - component: {fileID: 2586377334288906309}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a03828c949e88824980fc8a28b6eea5a, type: 2}
+  - {fileID: 2100000, guid: ca6255c515fb34f4fa59f0f277533763, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +81,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!208 &7786885511905960923
+--- !u!65 &322011195007048476
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899795471749963993}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -0.5, y: 0.5, z: 0.5}
+--- !u!208 &2586377334288906309
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,16 +110,3 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: -0.5, y: 0.5, z: 0.5}
   m_TimeToStationary: 0.5
---- !u!65 &-1104509514580792613
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2899795471749963993}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: -0.5, y: 0.5, z: 0.5}
