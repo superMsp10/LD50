@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Scope.md",
+            "file": "Gamplay.md",
             "mode": "source",
             "source": false
           }
@@ -69,7 +69,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Scope.md",
+                "file": "Gamplay.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -89,15 +89,15 @@
   },
   "active": "fb31de7d11fddc31",
   "lastOpenFiles": [
+    "Gamplay.md",
     "Scope.md",
+    "Waves.md",
     "Blocks.md",
     "Actions.md",
     "Enemies.md",
-    "Waves.md",
     "Stats.md",
     "Level.md",
     "LD50.md",
-    "InititalLevel.png",
-    "Gamplay.md"
+    "InititalLevel.png"
   ]
 }

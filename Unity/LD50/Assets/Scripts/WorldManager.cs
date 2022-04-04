@@ -16,6 +16,7 @@ public class WorldManager : MonoBehaviour
     public struct BlockProperties
     {
         public bool isEditable;
+        public bool isObstacle;
     }
 
     public enum Block
@@ -61,6 +62,12 @@ public class WorldManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public bool isBlockObstacle(Vector3Int pos)
+    {
+        //Debug.LogFormat("isBlockObstacle Pos:{2} Block{0} Obstacle:{1}", blocks[pos.x, pos.y, pos.z], blockProperties[(int)blocks[pos.x, pos.y, pos.z]].isObstacle, pos);
+        return blockProperties[(int)blocks[pos.x, pos.y, pos.z]].isObstacle;
     }
 
     public bool isBlockEditable(Vector3Int pos)

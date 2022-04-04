@@ -59,7 +59,7 @@ public class ActionsHandler : MonoBehaviour
         if (validBlock && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
         {
             startDragBlock = mouseBlockPos;
-            Debug.Log("Start drag: " + startDragBlock);
+            //Debug.Log("Start drag: " + startDragBlock);
             startDragging = true;
             leftClickDrag = Input.GetMouseButton(0);
         }
@@ -91,7 +91,7 @@ public class ActionsHandler : MonoBehaviour
         {
             startDragging = false;
             endDragBlock = mouseBlockPos;
-            Debug.Log("End drag: " + endDragBlock);
+            //Debug.Log("End drag: " + endDragBlock);
 
             Block b = leftClickDrag ? WorldManager.Block.Wood : WorldManager.Block.Air;
             RasterLineCallback(startDragBlock, endDragBlock, (Vector3Int rasterPos) =>
@@ -174,7 +174,7 @@ public class ActionsHandler : MonoBehaviour
 
         for (int y = p0.z; y <= p1.z; y++)
         {
-            Debug.LogFormat("Raster point high {0}", new Vector3Int(x, p0.y, y));
+            //Debug.LogFormat("Raster point high {0}", new Vector3Int(x, p0.y, y));
             callback(new Vector3Int(x, p0.y, y));
             if (d > 0)
             {
@@ -200,5 +200,10 @@ public class ActionsHandler : MonoBehaviour
         }
         pos = Vector3Int.zero;
         return false;
+    }
+
+    public GameObject GetHighLightBlock(Vector3Int pos)
+    {
+       return Instantiate(highlightBlock, pos, Quaternion.identity, highlightBlockTransform);
     }
 }
