@@ -2,7 +2,7 @@
 
 Place blocks/people
 
-Delete clocks/people
+Delete blocks/people
 - Free to delete
 - Returns all resources
 

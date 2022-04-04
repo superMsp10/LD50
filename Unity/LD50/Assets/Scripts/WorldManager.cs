@@ -10,6 +10,8 @@ public class WorldManager : MonoBehaviour
 
     [SerializeField] float gateSize = 1;
 
+    Dictionary<Vector3Int, GameObject> blockToModelInstance;
+
     Transform blocksTerrain;
 
     [System.Serializable]
@@ -32,6 +34,7 @@ public class WorldManager : MonoBehaviour
     private void Awake()
     {
         blocks = new Block[worldSize.x, worldSize.y, worldSize.z];
+        blockToModelInstance = new Dictionary<Vector3Int, GameObject>();
         //Build edge walls and gates
         for (int x = 0; x < worldSize.x; x++)
             for (int z = 0; z < worldSize.z; z++)
@@ -78,7 +81,13 @@ public class WorldManager : MonoBehaviour
     public void EditBlock(Vector3Int pos, Block b)
     {
         if (isBlockEditable(pos))
+        {
             blocks[pos.x, pos.y, pos.z] = b;
+            if (blockToModelInstance.ContainsKey(pos) && blockToModelInstance[pos] != null)
+                Destroy(blockToModelInstance[pos]);
+            if (blockModels[(int)b] != null)
+                blockToModelInstance[pos] = Instantiate(blockModels[(int)b], pos, Quaternion.identity, blocksTerrain);
+        }
     }
 
     public Vector3Int GetValidWorldBlockPos(Vector3Int pos)
@@ -111,8 +120,9 @@ public class WorldManager : MonoBehaviour
                 for (int z = 0; z < worldSize.z; z++)
                 {
                     Block block = blocks[x, y, z];
-                    if (block == Block.Air) continue;
-                    Instantiate(blockModels[(int)block], new Vector3Int(x, y, z), Quaternion.identity, blocksTerrain);
+                    if (blockModels[(int)block] == null) continue;
+                    Vector3Int pos = new Vector3Int(x, y, z);
+                    blockToModelInstance[pos] = Instantiate(blockModels[(int)block], pos, Quaternion.identity, blocksTerrain);
                 }
     }
 }

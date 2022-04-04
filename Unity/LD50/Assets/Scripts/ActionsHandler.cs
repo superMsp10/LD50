@@ -98,7 +98,7 @@ public class ActionsHandler : MonoBehaviour
             {
                 wManager.EditBlock(rasterPos, b);
             });
-            wManager.RenderWorld();
+            //wManager.RenderWorld();
 
             if (highlightBlockTransform != null)
                 Destroy(highlightBlockTransform.gameObject);

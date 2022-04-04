@@ -11,11 +11,28 @@ Not need to use complex mesh generation just use cubes as blocks for now
 
 Foot enemy
 - [x] Path find to temple
-- [ ] Destroy blocks if no path
+- [x] Destroy blocks if no path
 
 Temple health
-- [ ] Enemy damage temple when within range
+- [x] Enemy damage temple when within range
+- [x] Enemy dies when it deals damage
+- [x] Show Temple Health
+
+Refactoring
+- [x] Dont destroy all blocks everything there is an edit
+	- [x] Edit per block
+	- [x] Save references of block models using hash map
+- [x] Enemy use last valid path in destruction mode
 
 Wave system
+- [ ] Spawn enemies from spawnspots
+- [ ] Wave UI
+	- [ ] Start next wave during build mode
+	- [ ] Wave number
+		- [ ]  Wave number vs Build mode status
+	- [ ] Number of enemies left
+	- [ ] Wave reward
 - [ ] Temple health restored at end of round
 
+Game start and over
+- [ ] Show high score at game over screen

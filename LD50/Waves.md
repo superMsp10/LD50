@@ -6,3 +6,9 @@ At the start of each wave show card for information about new gameplay or enemie
 
 At the end of wave give options of face down cards as results
 - Flip over selected one and give reward
+
+First wave tutorial
+- Not build mode before first wave
+- Show how enemy pathfinds to temple and damages it
+- Give reward and resources
+- Then give player oppurtunity build

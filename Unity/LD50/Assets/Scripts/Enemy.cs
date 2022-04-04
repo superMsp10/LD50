@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] float attackRadius = 2, attackDamage = 1, destructionModeSpeed = 20, attackCoolDown = 10f;
+
     NavMeshAgent navMeshAgent;
     WorldManager worldManager;
 
@@ -21,9 +23,11 @@ public class Enemy : MonoBehaviour
         Temple t = FindObjectOfType<Temple>();
         if (t != null)
         {
-            if ((t.transform.position - transform.position).sqrMagnitude < 2)
+            if ((t.transform.position - transform.position).sqrMagnitude < attackRadius)
             {
-                Debug.LogFormat("{0}", "Found temple");
+                //Debug.LogFormat("{0}", "Found temple");
+                t.GetComponent<Health>().TakeDamage(attackDamage);
+                Destroy(gameObject);
             }
             else
             {
@@ -33,23 +37,14 @@ public class Enemy : MonoBehaviour
 
     }
 
-    int hasValidPathScore;
-
+    float lastAttack;
     void GetToTemple(Temple t)
     {
-        if (!navMeshAgent.hasPath && hasValidPathScore > -100)
+        NavMeshPath p = new NavMeshPath();
+        bool hasPath = navMeshAgent.CalculatePath(t.transform.position, p);
+        if (p.status != NavMeshPathStatus.PathComplete)
         {
-            hasValidPathScore--;
-        }
-        if (navMeshAgent.hasPath && hasValidPathScore < 100)
-            hasValidPathScore++;
-
-        //Debug.LogFormat("hasValidPathSmooth:{0}", hasValidPathScore);
-
-
-        navMeshAgent.SetDestination(t.transform.position);
-        if (hasValidPathScore < 0)
-        {
+            navMeshAgent.isStopped = true;
             Vector3 templeDir = (t.transform.position - transform.position).normalized;
             Vector3Int obstacleBlock = Vector3Int.RoundToInt(transform.position + templeDir + Random.insideUnitSphere);
             obstacleBlock.y = 0;
@@ -57,14 +52,20 @@ public class Enemy : MonoBehaviour
             //FindObjectOfType<ActionsHandler>().GetHighLightBlock(obstacleBlock);
             bool isValid = worldManager.IsValidBlockPos(obstacleBlock);
 
-            //Debug.LogFormat("isValid {0}  isObstacle {1}", isValid, isValid ? worldManager.isBlockObstacle(obstacleBlock) : false);
-            if (isValid && worldManager.isBlockObstacle(obstacleBlock))
+            if (isValid && worldManager.isBlockObstacle(obstacleBlock) && Time.time - lastAttack > attackCoolDown)
             {
                 worldManager.EditBlock(obstacleBlock, WorldManager.Block.Air);
-                worldManager.RenderWorld();
-            }
-            transform.position += templeDir * Time.smoothDeltaTime * navMeshAgent.speed;
-        }
+                lastAttack = Time.time;
 
+                Debug.LogFormat("Enemy Attack! {0}", name);
+            }
+
+            transform.position += templeDir * Time.smoothDeltaTime * destructionModeSpeed;
+        }
+        else
+        {
+            navMeshAgent.isStopped = false;
+            navMeshAgent.SetPath(p);
+        }
     }
 }
