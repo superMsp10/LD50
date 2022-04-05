@@ -6,7 +6,7 @@ public class WorldManager : MonoBehaviour
 {
     [SerializeField] Vector3Int worldSize;
     [SerializeField] GameObject[] blockModels;
-    [SerializeField] BlockProperties[] blockProperties;
+    public BlockProperties[] blockProperties;
 
     [SerializeField] float gateSize = 1;
 
@@ -14,11 +14,15 @@ public class WorldManager : MonoBehaviour
 
     Transform blocksTerrain;
 
+    WaveManager waveM;
+
+
     [System.Serializable]
     public struct BlockProperties
     {
         public bool isEditable;
         public bool isObstacle;
+        public int cost;
     }
 
     public enum Block
@@ -26,7 +30,8 @@ public class WorldManager : MonoBehaviour
         Air,
         Wall,
         Temple,
-        Wood
+        Wood,
+        Spike
     }
 
     public Block[,,] blocks;
@@ -58,7 +63,7 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        waveM = FindObjectOfType<WaveManager>();
     }
 
     // Update is called once per frame
@@ -82,11 +87,17 @@ public class WorldManager : MonoBehaviour
     {
         if (isBlockEditable(pos))
         {
-            blocks[pos.x, pos.y, pos.z] = b;
-            if (blockToModelInstance.ContainsKey(pos) && blockToModelInstance[pos] != null)
-                Destroy(blockToModelInstance[pos]);
-            if (blockModels[(int)b] != null)
-                blockToModelInstance[pos] = Instantiate(blockModels[(int)b], pos, Quaternion.identity, blocksTerrain);
+            //Debug.LogFormat("money {0} cost{1} block{2}", waveM.money, blockProperties[((int)b)].cost, b);
+            waveM.money += blockProperties[((int)blocks[pos.x, pos.y, pos.z])].cost;
+            if (waveM.money >= blockProperties[((int)b)].cost)
+            {
+                blocks[pos.x, pos.y, pos.z] = b;
+                waveM.money -= blockProperties[((int)b)].cost;
+                if (blockToModelInstance.ContainsKey(pos) && blockToModelInstance[pos] != null)
+                    Destroy(blockToModelInstance[pos]);
+                if (blockModels[(int)b] != null)
+                    blockToModelInstance[pos] = Instantiate(blockModels[(int)b], pos, Quaternion.identity, blocksTerrain);
+            }
         }
     }
 

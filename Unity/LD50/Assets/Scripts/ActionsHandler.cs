@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Shapes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static WorldManager;
@@ -10,7 +11,11 @@ public class ActionsHandler : MonoBehaviour
 
     Camera cam;
     WorldManager wManager;
+    WaveManager waveM;
     Renderer highlightBlockRenderer;
+
+    [SerializeField] GameObject[] items;
+    int selectedItem;
 
     Transform highlightBlockTransform;
 
@@ -19,19 +24,53 @@ public class ActionsHandler : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         wManager = FindObjectOfType<WorldManager>();
+        waveM = FindObjectOfType<WaveManager>();
+
         highlightBlockRenderer = highlightBlock.GetComponent<Renderer>();
 
         highlightBlockTransform = new GameObject("highlightBlockTransform").transform;
 
         Debug.Log("Press ESC to cancel selected blocks while dragging");
+        SelectItem();
     }
 
     bool validBlock;
     Vector3Int mouseBlockPos;
 
+    void SelectItem()
+    {
+        foreach (var item in items)
+        {
+            item.GetComponent<Rectangle>().enabled = false;
+        }
+        items[selectedItem].GetComponent<Rectangle>().enabled = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedItem++;
+            if (selectedItem == items.Length)
+            {
+                selectedItem = 0;
+            }
+
+            SelectItem();
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedItem--;
+            if (selectedItem < 0)
+            {
+                selectedItem = items.Length - 1;
+            }
+
+            SelectItem();
+        }
+
         validBlock = GetBlockPosUnderMouse(out mouseBlockPos) && wManager.IsValidBlockPos(mouseBlockPos);
         mouseBlockPos.y = 0;
         highlightBlockRenderer.material = selected;
@@ -93,16 +132,37 @@ public class ActionsHandler : MonoBehaviour
             endDragBlock = mouseBlockPos;
             //Debug.Log("End drag: " + endDragBlock);
 
-            Block b = leftClickDrag ? WorldManager.Block.Wood : WorldManager.Block.Air;
-            RasterLineCallback(startDragBlock, endDragBlock, (Vector3Int rasterPos) =>
+            if (!leftClickDrag)
             {
-                wManager.EditBlock(rasterPos, b);
-            });
+                RasterLineCallback(startDragBlock, endDragBlock, (Vector3Int rasterPos) =>
+                {
+                    wManager.EditBlock(rasterPos, Block.Air);
+                });
+            }
+            else
+            {
+                RasterLineCallback(startDragBlock, endDragBlock, (Vector3Int rasterPos) =>
+                {
+                    wManager.EditBlock(rasterPos, Block.Air);
+                });
+
+                RasterLineCallback(startDragBlock, endDragBlock, (Vector3Int rasterPos) =>
+                {
+                    wManager.EditBlock(rasterPos, (Block)(selectedItem + 3));
+                });
+            }
+
             //wManager.RenderWorld();
 
             if (highlightBlockTransform != null)
                 Destroy(highlightBlockTransform.gameObject);
         }
+    }
+
+    public void SetEnabled(bool _enabled)
+    {
+        enabled = _enabled;
+        highlightBlock.SetActive(_enabled);
     }
 
     public delegate void RasterCallback(Vector3Int RasterizedBlockPos);
@@ -204,6 +264,6 @@ public class ActionsHandler : MonoBehaviour
 
     public GameObject GetHighLightBlock(Vector3Int pos)
     {
-       return Instantiate(highlightBlock, pos, Quaternion.identity, highlightBlockTransform);
+        return Instantiate(highlightBlock, pos, Quaternion.identity, highlightBlockTransform);
     }
 }

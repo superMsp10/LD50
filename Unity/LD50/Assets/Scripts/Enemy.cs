@@ -9,12 +9,16 @@ public class Enemy : MonoBehaviour
 
     NavMeshAgent navMeshAgent;
     WorldManager worldManager;
+    Health myHealth;
 
     // Start is called before the first frame update
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         worldManager = FindObjectOfType<WorldManager>();
+        myHealth = GetComponent<Health>();
+        myHealth.onDie += OnDeath;
+        myHealth.onDamage += OnDamage;
     }
 
     // Update is called once per frame
@@ -27,7 +31,7 @@ public class Enemy : MonoBehaviour
             {
                 //Debug.LogFormat("{0}", "Found temple");
                 t.GetComponent<Health>().TakeDamage(attackDamage);
-                Destroy(gameObject);
+                myHealth.TakeDamage(1000);
             }
             else
             {
@@ -67,5 +71,15 @@ public class Enemy : MonoBehaviour
             navMeshAgent.isStopped = false;
             navMeshAgent.SetPath(p);
         }
+    }
+
+    void OnDamage(Health h)
+    {
+        GetComponent<Renderer>().material.color = Color.Lerp(Color.red, Color.white, h.healthValue / h.startHealth);
+    }
+
+    void OnDeath(Health h)
+    {
+        Destroy(gameObject);
     }
 }

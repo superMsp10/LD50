@@ -25,14 +25,23 @@ Refactoring
 - [x] Enemy use last valid path in destruction mode
 
 Wave system
-- [ ] Spawn enemies from spawnspots
-- [ ] Wave UI
-	- [ ] Start next wave during build mode
-	- [ ] Wave number
-		- [ ]  Wave number vs Build mode status
-	- [ ] Number of enemies left
-	- [ ] Wave reward
-- [ ] Temple health restored at end of round
+- [x] Spawn enemies from spawnspots
+- [x] Wave UI
+	- [x] Start next wave button during build mode
+	- [x] Wave number
+		- [x]  Wave number vs Build mode status
+	- [x] Number of enemies left
+	- [x] Wave reward
+- [x] Temple health restored at end of round
+- [x] Restart wave option
 
 Game start and over
-- [ ] Show high score at game over screen
+- [x] Show high score at game over screen
+
+Attack
+- [ ] Money system
+- [ ] Hotbar
+- [ ] Spikes
+- [ ] Arrow
+	- [ ] Shoot four ways
+- [ ] Enemy change colour according to health

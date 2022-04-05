@@ -18,13 +18,20 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+
+        //Debug.LogFormat("damage: {0} health: {1}", damage, healthValue);
         healthValue -= damage;
         if (onDamage != null)
             onDamage(this);
-        if (healthValue < 0 && onDie != null)
+        if (healthValue <= 0 && onDie != null)
         {
-            Debug.LogFormat("{0}", "Hello!");
             onDie(this);
         }
+    }
+
+    public void ResetHealth()
+    {
+        healthValue = startHealth;
+        onDamage(this);
     }
 }
